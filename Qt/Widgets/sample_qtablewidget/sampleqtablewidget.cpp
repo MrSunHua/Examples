@@ -3,8 +3,8 @@
 
 #include <QDebug>
 
-//#define Q_SAMPLE_BACKGROUND_GIF
-#define Q_SAMPLE_BACKGROUND_STATIC_PICTURE
+#define Q_SAMPLE_BACKGROUND_GIF
+//#define Q_SAMPLE_BACKGROUND_STATIC_PICTURE
 
 #if defined(Q_SAMPLE_BACKGROUND_GIF)
 # include <QDir>
@@ -45,7 +45,7 @@ SampleQTableWidget::SampleQTableWidget(QWidget *parent)
 
         this->updateDynamicPictureForNextFPS(movie_header, movie);
     });
-    renderBkTimer->start(60);
+    renderBkTimer->start(100);
 #endif
 }
 
@@ -70,6 +70,7 @@ QMovie* SampleQTableWidget::initializeQtDynamicPictureToCache(const QString &fil
     {
         movie->jumpToFrame(index);
         movie->currentImage().save(QString("%1/%2.png").arg(dir.absolutePath()).arg(index));
+        this->ui->textBrowser->append(QString("Expand [%1]: [%2] frame image to [%3]").arg(file).arg(index).arg(QString("%1/%2.png").arg(dir.absolutePath()).arg(index)));
     }
     return movie;
 #else
@@ -81,8 +82,8 @@ QMovie* SampleQTableWidget::initializeQtDynamicPictureToCache(const QString &fil
 
 void SampleQTableWidget::updateDynamicPictureForNextFPS(QMovie* header, QMovie* viewPort)
 {
-    this->updateHeaderDynamicPictureForNextFPS(header);
     this->updateViewPortDynamicPictureForNextFPS(viewPort);
+    this->updateHeaderDynamicPictureForNextFPS(header);
 }
 
 void SampleQTableWidget::updateHeaderDynamicPictureForNextFPS(QMovie* movie)
@@ -92,18 +93,18 @@ void SampleQTableWidget::updateHeaderDynamicPictureForNextFPS(QMovie* movie)
     {
         return;
     }
-    static int index = 0;
-    if(index < movie->frameCount())
+    static int index_header = 0;
+    if(index_header < movie->frameCount())
     {
-        QString url = QString("QWidget#%1{border-image: url(%2.png);}")
-                .arg(this->ui->tableWidget->viewport()->objectName())
-                .arg(QDir::current().absoluteFilePath("cache/" + QString::number(index)));
+        QString url = QString("border-image: url(%1.png);")
+                .arg(QDir::current().absoluteFilePath("cache_header/" + QString::number(index_header)));
 
-        this->ui->tableWidget->viewport()->setStyleSheet(url);
+        this->ui->tableWidget->horizontalHeader()->setStyleSheet(url);
     }
-    if(++index >= movie->frameCount())
+    this->ui->textBrowser->append(QString("update piture index for header: %1").arg(index_header));
+    if(++index_header >= movie->frameCount())
     {
-        index = 0;
+        index_header = 0;
     }
 #else
     Q_UNUSED(movie)
@@ -120,11 +121,13 @@ void SampleQTableWidget::updateViewPortDynamicPictureForNextFPS(QMovie* movie)
     static int index = 0;
     if(index < movie->frameCount())
     {
-        QString url = QString("border-image: url(%1.png);")
-                .arg(QDir::current().absoluteFilePath("cache_header/" + QString::number(index)));
+        QString url = QString("QWidget#%1{border-image: url(%2.png);}")
+                .arg(this->ui->tableWidget->viewport()->objectName())
+                .arg(QDir::current().absoluteFilePath("cache/" + QString::number(index)));
 
-        this->ui->tableWidget->horizontalHeader()->setStyleSheet(url);
+        this->ui->tableWidget->viewport()->setStyleSheet(url);
     }
+    this->ui->textBrowser->append(QString("update piture index for viewport: %1").arg(index));
     if(++index >= movie->frameCount())
     {
         index = 0;
