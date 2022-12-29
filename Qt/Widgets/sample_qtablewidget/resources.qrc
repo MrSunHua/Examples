@@ -1,0 +1,13 @@
+<RCC>
+    <qresource prefix="/static">
+        <file>resources/static_byk_viewport_bk.jpg</file>
+        <file>resources/static_byk_viewport_bk_01.jpg</file>
+        <file>resources/static_byk_viewport_bk_02.jpg</file>
+        <file>resources/static_byk_viewport_bk_03.jpg</file>
+    </qresource>
+    <qresource prefix="/dynamic">
+        <file>resources/dynamic_byk_viewport_bk_02.webp</file>
+        <file>resources/dynamic_byk_viewport_bk_01.webp</file>
+    </qresource>
+    <qresource prefix="/"/>
+</RCC>

@@ -1,0 +1,9 @@
+*这个示例项目是演示Qt的QTableWidget的基本使用属性，接口调用什么的按照Qt的默认规则即可，不需要具体特殊化任何接口。*
+
+
+**注意**
+
+*在sampleqtablewidget.cpp中有定义Q_SAMPLE_BACKGROUND_XXX的宏定义，这个宏定义是区别演示静态效果和动态效果。你应该知道Q_SAMPLE_BACKGROUND_GIF(动态效果)、Q_SAMPLE_BACKGROUND_STATIC_PICTURE(静态效果)宏定义。*
+*这两个宏定义只能存在一个，你如果定义了Q_SAMPLE_BACKGROUND_GIF或者Q_SAMPLE_BACKGROUND_STATIC_PICTURE，那么请你手动的把另外一个屏蔽掉(使用C语言的注释语法或者#undef关键字)即可。*
+
+*如果你对演示的效果不满意或者不想看见它，你将所有的Q_SAMPLE_BACKGROUND_XXX的宏定义屏蔽即可！*
